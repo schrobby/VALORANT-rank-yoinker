@@ -262,7 +262,7 @@ try:
                             player["Subject"]: {
                                 "team": player["TeamID"],
                                 "agent": player["CharacterID"],
-                                "streamer_mode": player["PlayerIdentity"]["Incognito"],
+                                "streamer_mode": False,
                             }
                         }
                     )
@@ -344,17 +344,6 @@ try:
                                         ):
                                             times += 1
                                             m_set += (m["match_id"],)
-                                    if player["PlayerIdentity"]["Incognito"] == False:
-                                        already_played_with.append(
-                                            {
-                                                "times": times,
-                                                "name": curr_player_stat["name"],
-                                                "agent": curr_player_stat["agent"],
-                                                "time_diff": time.time()
-                                                - curr_player_stat["epoch"],
-                                            }
-                                        )
-                                    else:
                                         if player["TeamID"] == allyTeam:
                                             team_string = "your"
                                         else:
@@ -427,23 +416,15 @@ try:
 
                         player_level = player["PlayerIdentity"].get("AccountLevel")
 
-                        if player["PlayerIdentity"]["Incognito"]:
-                            Namecolor = colors.get_color_from_team(
-                                player["TeamID"],
-                                names[player["Subject"]],
-                                player["Subject"],
-                                Requests.puuid,
-                                agent=player["CharacterID"],
-                                party_members=partyMembersList,
-                            )
-                        else:
-                            Namecolor = colors.get_color_from_team(
-                                player["TeamID"],
-                                names[player["Subject"]],
-                                player["Subject"],
-                                Requests.puuid,
-                                party_members=partyMembersList,
-                            )
+
+                        Namecolor = colors.get_color_from_team(
+                            player["TeamID"],
+                            names[player["Subject"]],
+                            player["Subject"],
+                            Requests.puuid,
+                            party_members=partyMembersList,
+                        )
+
                         if lastTeam != player["TeamID"]:
                             if lastTeamBoolean:
                                 table.add_empty_row()
@@ -678,23 +659,14 @@ try:
                         )
 
                         player_level = player["PlayerIdentity"].get("AccountLevel")
-                        if player["PlayerIdentity"]["Incognito"]:
-                            NameColor = colors.get_color_from_team(
-                                pregame_stats["Teams"][0]["TeamID"],
-                                names[player["Subject"]],
-                                player["Subject"],
-                                Requests.puuid,
-                                agent=player["CharacterID"],
-                                party_members=partyMembersList,
-                            )
-                        else:
-                            NameColor = colors.get_color_from_team(
-                                pregame_stats["Teams"][0]["TeamID"],
-                                names[player["Subject"]],
-                                player["Subject"],
-                                Requests.puuid,
-                                party_members=partyMembersList,
-                            )
+
+                        NameColor = colors.get_color_from_team(
+                            pregame_stats["Teams"][0]["TeamID"],
+                            names[player["Subject"]],
+                            player["Subject"],
+                            Requests.puuid,
+                            party_members=partyMembersList,
+                        )
 
                         if player["PlayerIdentity"]["HideAccountLevel"]:
                             if (
